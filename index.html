@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Request</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+```
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.5;
+        color: #333;
+        background-color: #f5f5f5;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .header {
+        background: #2c5aa0;
+        color: white;
+        padding: 24px;
+        text-align: center;
+    }
+
+    .header h1 {
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .form-container {
+        padding: 32px 24px;
+    }
+
+    .form-group {
+        margin-bottom: 24px;
+    }
+
+    .address-group {
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 20px;
+        background-color: #fafafa;
+    }
+
+    .address-group legend {
+        font-weight: 600;
+        color: #555;
+        padding: 0 8px;
+        font-size: 14px;
+    }
+
+    .address-fields {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+        margin-top: 12px;
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #555;
+        font-size: 14px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus,
+    textarea:focus {
+        outline: none;
+        border-color: #2c5aa0;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .file-input-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    input[type="file"] {
+        width: 100%;
+        padding: 12px;
+        border: 2px dashed #ccc;
+        border-radius: 6px;
+        background-color: #fafafa;
+        cursor: pointer;
+        transition: border-color 0.3s ease;
+    }
+
+    input[type="file"]:hover {
+        border-color: #2c5aa0;
+    }
+
+    .file-info {
+        font-size: 12px;
+        color: #666;
+        margin-top: 4px;
+    }
+
+    select {
+        cursor: pointer;
+    }
+
+    .submit-btn {
+        background: #2c5aa0;
+        color: white;
+        border: none;
+        padding: 16px 32px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        background: #234a87;
+    }
+
+    .submit-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+
+    .success-message {
+        display: none;
+        background: #d4edda;
+        color: #155724;
+        padding: 16px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        border: 1px solid #c3e6cb;
+    }
+
+    .error {
+        border-color: #dc3545 !important;
+    }
+
+    .error-message {
+        color: #dc3545;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    @media (max-width: 600px) {
+        body {
+            padding: 10px;
+        }
+        
+        .form-container {
+            padding: 24px 16px;
+        }
+        
+        .address-fields {
+            grid-template-columns: 1fr;
+        }
+        
+        .header {
+            padding: 20px;
+        }
+        
+        .header h1 {
+            font-size: 20px;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Maintenance Request</h1>
+        </div>
+
+```
+    <div class="form-container">
+        <div class="success-message" id="successMessage">
+            <strong>Request submitted successfully!</strong> We'll contact you within 24 hours to schedule your maintenance appointment.
+        </div>
+        
+        <form id="maintenanceForm">
+            <div class="form-group">
+                <label for="fullName">Full Name *</label>
+                <input type="text" id="fullName" name="fullName" required>
+                <div class="error-message" id="fullNameError"></div>
+            </div>
+
+            <fieldset class="address-group">
+                <legend>Property Information</legend>
+                <div class="address-fields">
+                    <div>
+                        <label for="address">Property Address *</label>
+                        <input type="text" id="address" name="address" placeholder="123 Main Street" required>
+                        <div class="error-message" id="addressError"></div>
+                    </div>
+                    <div>
+                        <label for="unitNumber">Unit Number *</label>
+                        <input type="text" id="unitNumber" name="unitNumber" placeholder="Apt 2B" required>
+                        <div class="error-message" id="unitNumberError"></div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="form-group">
+                <label for="description">Problem Description *</label>
+                <textarea id="description" name="description" placeholder="Please describe the maintenance issue in detail..." required></textarea>
+                <div class="error-message" id="descriptionError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="photos">Upload Photos (Optional)</label>
+                <div class="file-input-wrapper">
+                    <input type="file" id="photos" name="photos" multiple accept="image/*">
+                </div>
+                <div class="file-info">Maximum 3 images. Accepted formats: JPG, PNG, GIF, WebP</div>
+            </div>
+
+            <div class="form-group">
+                <label for="preferredTime">Preferred Maintenance Time *</label>
+                <select id="preferredTime" name="preferredTime" required>
+                    <option value="">Select a time slot</option>
+                    <option value="monday-9am">Monday 9:00 AM - 10:00 AM</option>
+                    <option value="monday-10am">Monday 10:00 AM - 11:00 AM</option>
+                    <option value="monday-11am">Monday 11:00 AM - 12:00 PM</option>
+                    <option value="monday-12pm">Monday 12:00 PM - 1:00 PM</option>
+                    <option value="monday-1pm">Monday 1:00 PM - 2:00 PM</option>
+                    <option value="monday-2pm">Monday 2:00 PM - 3:00 PM</option>
+                    <option value="monday-3pm">Monday 3:00 PM - 4:00 PM</option>
+                    <option value="monday-4pm">Monday 4:00 PM - 5:00 PM</option>
+                    <option value="tuesday-9am">Tuesday 9:00 AM - 10:00 AM</option>
+                    <option value="tuesday-10am">Tuesday 10:00 AM - 11:00 AM</option>
+                    <option value="tuesday-11am">Tuesday 11:00 AM - 12:00 PM</option>
+                    <option value="tuesday-12pm">Tuesday 12:00 PM - 1:00 PM</option>
+                    <option value="tuesday-1pm">Tuesday 1:00 PM - 2:00 PM</option>
+                    <option value="tuesday-2pm">Tuesday 2:00 PM - 3:00 PM</option>
+                    <option value="tuesday-3pm">Tuesday 3:00 PM - 4:00 PM</option>
+                    <option value="tuesday-4pm">Tuesday 4:00 PM - 5:00 PM</option>
+                    <option value="wednesday-9am">Wednesday 9:00 AM - 10:00 AM</option>
+                    <option value="wednesday-10am">Wednesday 10:00 AM - 11:00 AM</option>
+                    <option value="wednesday-11am">Wednesday 11:00 AM - 12:00 PM</option>
+                    <option value="wednesday-12pm">Wednesday 12:00 PM - 1:00 PM</option>
+                    <option value="wednesday-1pm">Wednesday 1:00 PM - 2:00 PM</option>
+                    <option value="wednesday-2pm">Wednesday 2:00 PM - 3:00 PM</option>
+                    <option value="wednesday-3pm">Wednesday 3:00 PM - 4:00 PM</option>
+                    <option value="wednesday-4pm">Wednesday 4:00 PM - 5:00 PM</option>
+                    <option value="thursday-9am">Thursday 9:00 AM - 10:00 AM</option>
+                    <option value="thursday-10am">Thursday 10:00 AM - 11:00 AM</option>
+                    <option value="thursday-11am">Thursday 11:00 AM - 12:00 PM</option>
+                    <option value="thursday-12pm">Thursday 12:00 PM - 1:00 PM</option>
+                    <option value="thursday-1pm">Thursday 1:00 PM - 2:00 PM</option>
+                    <option value="thursday-2pm">Thursday 2:00 PM - 3:00 PM</option>
+                    <option value="thursday-3pm">Thursday 3:00 PM - 4:00 PM</option>
+                    <option value="thursday-4pm">Thursday 4:00 PM - 5:00 PM</option>
+                    <option value="friday-9am">Friday 9:00 AM - 10:00 AM</option>
+                    <option value="friday-10am">Friday 10:00 AM - 11:00 AM</option>
+                    <option value="friday-11am">Friday 11:00 AM - 12:00 PM</option>
+                    <option value="friday-12pm">Friday 12:00 PM - 1:00 PM</option>
+                    <option value="friday-1pm">Friday 1:00 PM - 2:00 PM</option>
+                    <option value="friday-2pm">Friday 2:00 PM - 3:00 PM</option>
+                    <option value="friday-3pm">Friday 3:00 PM - 4:00 PM</option>
+                    <option value="friday-4pm">Friday 4:00 PM - 5:00 PM</option>
+                </select>
+                <div class="error-message" id="preferredTimeError"></div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Request</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('maintenanceForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Clear previous errors
+        clearErrors();
+        
+        // Validate form
+        let isValid = true;
+        
+        // Required field validation
+        const requiredFields = ['fullName', 'address', 'unitNumber', 'description', 'preferredTime'];
+        
+        requiredFields.forEach(field => {
+            const input = document.getElementById(field);
+            if (!input.value.trim()) {
+                showError(field, 'This field is required');
+                isValid = false;
+            }
+        });
+        
+        // Photo validation
+        const photos = document.getElementById('photos');
+        if (photos.files.length > 3) {
+            showError('photos', 'Maximum 3 images allowed');
+            isValid = false;
+        }
+        
+        // Validate file types
+        for (let i = 0; i < photos.files.length; i++) {
+            const file = photos.files[i];
+            if (!file.type.startsWith('image/')) {
+                showError('photos', 'Only image files are allowed');
+                isValid = false;
+                break;
+            }
+        }
+        
+        if (isValid) {
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Reset form
+            this.reset();
+            
+            // Scroll to top
+            document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+    
+    function showError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        const errorElement = document.getElementById(fieldId + 'Error');
+        
+        field.classList.add('error');
+        if (errorElement) {
+            errorElement.textContent = message;
+        }
+    }
+    
+    function clearErrors() {
+        const errorElements = document.querySelectorAll('.error-message');
+        const errorFields = document.querySelectorAll('.error');
+        
+        errorElements.forEach(el => el.textContent = '');
+        errorFields.forEach(el => el.classList.remove('error'));
+        
+        document.getElementById('successMessage').style.display = 'none';
+    }
+    
+    // Remove error styling on input
+    document.querySelectorAll('input, select, textarea').forEach(field => {
+        field.addEventListener('input', function() {
+            this.classList.remove('error');
+            const errorElement = document.getElementById(this.id + 'Error');
+            if (errorElement) {
+                errorElement.textContent = '';
+            }
+        });
+    });
+</script>
+```
+
+</body>
+</html>
